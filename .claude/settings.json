@@ -1,7 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "PowerShell(git config user.name)",
+      "PowerShell(git config user.email)",
+      "PowerShell(git ls-remote https://github.com/anchorassociatesbuilder-ai/anchor-builders.git HEAD)",
+      "PowerShell(git remote set-url origin https://github.com/anchorassociatesbuilder-ai/anchor-builders.git)",
+      "PowerShell(git commit --allow-empty -m \"Transfer repository ownership to anchorassociatesbuilder-ai\" -m \"The repository has moved from github.com/mrayyan6/anchor-builders to github.com/anchorassociatesbuilder-ai/anchor-builders. The origin remote now points to the new location.\")",
+      "PowerShell(git config --local user.name \"anchorassociatesbuilder-ai\")",
+      "PowerShell(git config --local user.email \"anchor.associates.builder@gmail.com\")",
+      "PowerShell(git commit --amend --no-edit --reset-author)",
+      "PowerShell(git config --show-origin --get-all credential.helper)",
+      "PowerShell(git commit --amend --allow-empty --no-edit --reset-author)",
+      "PowerShell(git config --local --get user.name)",
+      "PowerShell(git config --local --get user.email)"
     ]
   }
 }
