@@ -57,12 +57,15 @@ const nextConfig = {
     return [{ source: '/:path*', headers }];
   },
   images: {
-    // Serve modern formats (AVIF first, WebP fallback) from the built-in
-    // optimizer — smaller transfers than the original JPEGs → faster LCP.
-    formats: ['image/avif', 'image/webp'],
-    // Cache optimized variants for 31 days so repeat views/visitors skip
-    // re-optimization and hit the CDN/edge cache.
-    minimumCacheTTL: 2678400,
+    // Vercel's free plan allows 5,000 image transformations a month, and each
+    // width and format of each photo counts as one. So: AVIF only (smallest
+    // files, supported by all current browsers), three screen widths plus two
+    // thumbnail widths instead of Next's sixteen, and resized copies cached for
+    // a year (uploads get unique file names, so a cached copy never goes stale).
+    formats: ['image/avif'],
+    deviceSizes: [640, 1200, 1920],
+    imageSizes: [256, 384],
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: 'https',

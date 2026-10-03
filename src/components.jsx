@@ -187,7 +187,10 @@ function ImgBox({ src, ratio = 'r-43', alt = '', className = '', label = '', pri
           sizes={sizes || '(max-width: 800px) 100vw, (max-width: 1280px) 50vw, 33vw'}
           priority={priority}
           onLoad={() => setLoaded(true)}
-          onError={() => setErr(true)}
+          onError={(e) => {
+            // ImageFallback (app/ImageFallback.jsx) is retrying with the original file.
+            if (e.currentTarget.dataset.fallback !== 'retrying') setErr(true);
+          }}
           className="img-box-img"
         />
       )}

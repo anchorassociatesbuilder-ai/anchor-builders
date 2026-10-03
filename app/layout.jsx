@@ -1,9 +1,11 @@
 import React, { Suspense } from 'react';
 import { Cormorant_Garamond, Manrope, JetBrains_Mono } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import AppShell from './AppShell';
 import SessionGuard from './SessionGuard';
 import NavProgress from './NavProgress';
+import ImageFallback from './ImageFallback';
 import { createClient } from '../utils/supabase/server';
 
 const serif = Cormorant_Garamond({
@@ -49,11 +51,13 @@ export default async function RootLayout({ children }) {
     <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
       <body>
         <SessionGuard />
+        <ImageFallback />
         {/* NavProgress reads useSearchParams, which needs a Suspense boundary. */}
         <Suspense fallback={null}>
           <NavProgress />
         </Suspense>
         <AppShell auth={auth}>{children}</AppShell>
+        <Analytics />
       </body>
     </html>
   );
