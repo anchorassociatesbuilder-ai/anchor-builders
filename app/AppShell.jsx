@@ -16,10 +16,10 @@ export default function AppShell({ children, auth = null }) {
   const transparent =
     pathname === '/' || /^\/projects\/[^/]+\/[^/]+$/.test(pathname);
 
-  // slide hover style for client cards; black accent block on hover
+  // slide hover style for client cards; navy accent block on hover
   useEffect(() => {
     document.body.setAttribute('data-hover-style', 'slide');
-    document.body.style.setProperty('--accent', '#14110d');
+    document.body.style.setProperty('--accent', 'var(--dark)');
   }, []);
 
   if (isStandalone) {
