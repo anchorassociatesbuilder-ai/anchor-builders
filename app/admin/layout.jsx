@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '../../utils/supabase/server';
 import AdminNav from './AdminNav';
+import { LogoLockup } from '../../src/Logo';
 import './admin.css';
 
 export const metadata = { title: 'Admin — Anchor' };
@@ -28,8 +29,8 @@ export default async function AdminLayout({ children }) {
     <div className="admin-shell">
       <aside className="admin-side">
         <Link className="admin-brand" href="/admin">
-          <span className="mark">A</span>
-          <span className="name">Anchor · Admin</span>
+          <LogoLockup />
+          <span className="name">Admin</span>
         </Link>
         <AdminNav />
         <div className="admin-user">

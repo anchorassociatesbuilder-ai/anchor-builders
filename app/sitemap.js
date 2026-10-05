@@ -3,10 +3,9 @@
 // client pages, and the database-driven project category + detail pages.
 import { SITE_DATA } from '../src/data';
 import { getActiveCategories, getActiveProjects } from '../lib/queries';
+import { SITE_URL as BASE_URL } from '../lib/site';
 
 export const dynamic = 'force-dynamic';
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://anchor-builders.vercel.app';
 
 export default async function sitemap() {
   const now = new Date();

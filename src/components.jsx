@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SITE_DATA } from './data';
 import { Magnetic, VelocityMarquee } from './animations';
+import { LogoLockup, LogoStacked } from './Logo';
 
 // ---------- Reveal-on-scroll wrapper ----------
 function Reveal({ children, as: Tag = 'div', className = '', delay = 0, mode = 'normal' }) {
@@ -54,8 +55,7 @@ function Nav({ transparent = true, auth = null }) {
     <>
       <header className={`nav${solid ? ' solid' : ''}`}>
         <Link className="nav-logo" href="/">
-          <span className="mark">A</span>
-          <span className="name">Anchor</span>
+          <LogoLockup />
         </Link>
         <nav className="nav-center">
           {NAV_ITEMS.map(it => (
@@ -132,6 +132,7 @@ function SiteFooter() {
       <div className="container-wide">
         <div className="ft-top">
           <div className="ft-brand">
+            <LogoStacked className="ft-logo" />
             <h2 className="hd-2">Building together,<br/>since 2010.</h2>
             <p>Anchor Associates &amp; Builders is a C-2 PEC registered construction and contracting firm based in Islamabad, delivering projects nationwide across civil, MEP, prefab, agricultural and specialty work.</p>
           </div>
@@ -337,8 +338,8 @@ function Hero({ frames, eyebrow, title, sub }) {
       </div>
       <div className="hero-inner">
         <div className="hero-top">
-          <span className="eyebrow dark"><span className="dot"></span>{eyebrow}</span>
-          <span className="eyebrow dark">EST. 2010 · PEC C-2 · ISLAMABAD</span>
+          {eyebrow && <span className="eyebrow dark"><span className="dot"></span>{eyebrow}</span>}
+          <span className="eyebrow dark hero-est">EST. 2010 · PEC C-2 · ISLAMABAD</span>
         </div>
         <div className="hero-mid">
           <h1 className="hd-display">{title}</h1>

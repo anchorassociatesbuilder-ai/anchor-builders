@@ -1,5 +1,7 @@
 import React from 'react';
+import Link from 'next/link';
 import LoginForm from './LoginForm';
+import { LogoLockup } from '../../src/Logo';
 import { createClient } from '../../utils/supabase/server';
 import { redirect } from 'next/navigation';
 import '../admin/admin.css';
@@ -24,6 +26,9 @@ export default async function LoginPage({ searchParams }) {
     <main className="page login-page">
       <section className="login-shell">
         <div className="login-card">
+          <Link className="login-logo" href="/">
+            <LogoLockup />
+          </Link>
           <div className="login-head">
             <span className="eyebrow"><span className="dot"></span>SIGN IN</span>
             <h1 className="hd-2" style={{ marginTop: 14 }}>Welcome back.</h1>

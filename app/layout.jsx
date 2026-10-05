@@ -7,6 +7,7 @@ import SessionGuard from './SessionGuard';
 import NavProgress from './NavProgress';
 import ImageFallback from './ImageFallback';
 import { createClient } from '../utils/supabase/server';
+import { SITE_URL, SITE_NAME, BRAND_NAVY } from '../lib/site';
 
 const serif = Cormorant_Garamond({
   subsets: ['latin'],
@@ -26,10 +27,27 @@ const mono = JetBrains_Mono({
   variable: '--font-mono',
 });
 
+// Icons and the link preview image come from files in this folder (favicon.ico,
+// icon.svg, apple-icon.png, opengraph-image.png). openGraph has no title of its
+// own on purpose: each page's title is used for its link preview.
 export const metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Anchor Associates & Builders — Construction & Contracting · Pakistan',
   description:
     'Anchor Associates & Builders — C-2 PEC registered construction firm based in Islamabad. Civil & MEP, prefabricated, agricultural, tensile, renovation and specialty construction across Pakistan.',
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
+};
+
+// Tints the mobile browser bar in the logo navy.
+export const viewport = {
+  themeColor: BRAND_NAVY,
 };
 
 async function getAuth() {

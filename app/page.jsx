@@ -6,9 +6,33 @@ import {
 } from '../src/components';
 import HomeFeatured from './HomeFeatured';
 import { getFeaturedProjects, getServiceCovers, getActiveHeroSlides } from '../lib/queries';
+import { SITE_URL, SITE_NAME } from '../lib/site';
 import { balancedSpanClass } from '../src/grid';
 
 export const dynamic = 'force-dynamic';
+
+// Structured data for Google: the company logo (shown in search and the
+// knowledge panel; it keeps its navy square so it reads on Google's white
+// background) and the site name shown above search results.
+const STRUCTURED_DATA = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/brand/logo-square.png`,
+    email: 'anchorassociates.builders@gmail.com',
+    telephone: '+92 334 7999336',
+    address: { '@type': 'PostalAddress', addressLocality: 'Islamabad', addressCountry: 'PK' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    alternateName: 'Anchor Builders',
+    url: `${SITE_URL}/`,
+  },
+];
 
 export default async function HomePage() {
   const [featured, covers, heroSlides] = await Promise.all([
@@ -33,9 +57,12 @@ export default async function HomePage() {
 
   return (
     <main className="page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+      />
       <Hero
         frames={heroFrames}
-        eyebrow="ANCHOR ASSOCIATES & BUILDERS"
         title="A proud tradition of service"
       />
 
