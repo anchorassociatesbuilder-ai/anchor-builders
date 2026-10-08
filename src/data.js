@@ -243,7 +243,6 @@ export const SITE_DATA = (function () {
     { id: 'pmdcm',      name: 'PMDC (Medical)',      fullName: 'Pakistan Medical & Dental Council',                              sector: 'Government', since: 2021, projects: 1 },
     { id: 'eikon7',     name: 'Eikon 7',             fullName: 'Eikon 7',                                                        sector: 'Private',    since: 2023, projects: 1 },
     { id: 'fourthwall', name: 'Fourth Wall Studios',  fullName: 'Fourth Wall Studios',                                           sector: 'Private',    since: 2022, projects: 3 },
-    { id: 'chajees',    name: "Chai Jee's Café",     fullName: "Chai Jee's Café",                                               sector: 'Private',    since: 2023, projects: 1 },
     { id: 'kingdom',    name: 'Kingdom Valley',       fullName: 'Kingdom Valley Islamabad',                                      sector: 'Private',    since: 2022, projects: 5 },
     { id: 'parkview',   name: 'Park View City',       fullName: 'Park View City',                                                sector: 'Private',    since: 2021, projects: 3 },
     { id: 'hec',        name: 'HEC',                fullName: 'Higher Education Commission',                                    sector: 'Government', since: 2018, projects: 2 },
@@ -306,7 +305,6 @@ export const SITE_DATA = (function () {
   const TESTIMONIALS = [
     { quote: 'Anchor delivered our research facility ahead of schedule and to spec. Their attention to safety standards is what set them apart.', who: 'Project Director, PARC', clientId: 'parc' },
     { quote: 'A turnkey contractor in the truest sense. They handled the dome, the wings, the finish — we just watched it rise.', who: 'Vice Chancellor, Alkaram University', clientId: 'parc' },
-    { quote: 'They built our café around our brand, not the other way around. The kitchen flow is exactly what we needed for high-volume service.', who: 'Founder, Chai Jee\'s Café', clientId: 'chajees' },
     { quote: 'Three plays, three different sets — every single one assembled flawlessly. A genuine theatre-construction partner.', who: 'Director, Fourth Wall Studios', clientId: 'fourthwall' },
     { quote: 'The intelligent glass house lets us control more variables than ever. NARC\'s research capacity has stepped up.', who: 'Head of Crop Research, NARC', clientId: 'narc' },
   ];

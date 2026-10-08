@@ -1,8 +1,9 @@
 'use server';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { createClient } from '../../../utils/supabase/server';
+import { createClient, createServiceClient } from '../../../utils/supabase/server';
 import { toSlug } from '../../../utils/slug';
+import { STORAGE_BUCKET } from '../../../lib/queries';
 
 async function requireAdmin() {
   const supabase = createClient();
@@ -111,10 +112,21 @@ export async function deleteClientRow(form) {
 
   // Removes only the roster row; project rows (projects.client text) are left
   // untouched, so no project is orphaned or deleted.
-  const { error } = await supabase.from('clients').delete().eq('id', id);
+  const { data: deleted, error } = await supabase
+    .from('clients')
+    .delete()
+    .eq('id', id)
+    .select('logo_storage_path');
   if (error) {
     console.error('deleteClientRow:', error.message);
     return { error: 'Could not delete client. Please try again.' };
+  }
+
+  // Best effort: drop the logo file of the row that was actually deleted so it
+  // doesn't linger in storage.
+  const logoPath = deleted?.[0]?.logo_storage_path;
+  if (logoPath) {
+    try { await createServiceClient().storage.from(STORAGE_BUCKET).remove([logoPath]); } catch {}
   }
   bust();
   return { ok: true };

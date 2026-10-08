@@ -105,7 +105,7 @@ export default function ClientsAdminClient({ initial }) {
   }
 
   function onDelete(c) {
-    const sure = confirm(`Remove "${c.name}" from the clients roster?\n\nThis only removes the roster entry — its projects are not deleted.`);
+    const sure = confirm(`Remove "${c.name}" from the clients roster?\n\nIt disappears from the public site and its logo file is deleted. Its projects are not deleted.`);
     if (!sure) return;
     const fd = new FormData();
     fd.set('id', c.id);

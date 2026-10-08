@@ -38,14 +38,15 @@ function bust(projectId) {
  *    client assignment) bumps the total by 1.
  *  - Always enforces total_projects >= the client's displayable project count.
  *  - A brand-new/custom client with no row yet is created with total 1 (the
- *    first project), never below the uploaded count.
+ *    first project), never below the uploaded count. Only when `allowCreate`
+ *    is set (the client was just picked), so re-saving a project whose client
+ *    was deleted from the roster doesn't bring that client back.
  *  - Never decrements; an old client losing a project keeps its total.
  */
-async function reconcileClientTotal(supabase, clientName, increment) {
+async function reconcileClientTotal(supabase, clientName, increment, allowCreate = true) {
   const name = String(clientName || '').trim();
   if (!name) return;
   const key = canonicalClientKey(name);
-  const slug = toSlug(name);
   try {
     const uploaded = (await getProjectsForClient(name)).length;
     const { data: rows } = await supabase
@@ -54,12 +55,17 @@ async function reconcileClientTotal(supabase, clientName, increment) {
     const existing = (rows || []).find((r) => canonicalClientKey(r.name) === key);
 
     if (!existing) {
-      await supabase
+      if (!allowCreate) return;
+      // Unique slug: a short custom name like "Kingdom" would otherwise clash
+      // with an existing client's slug and the insert would silently fail.
+      const slug = await uniqueSlug(supabase, 'clients', name);
+      const { error } = await supabase
         .from('clients')
         .upsert(
           { name, slug, total_projects: Math.max(1, uploaded) },
           { onConflict: 'name' }
         );
+      if (error) console.error('reconcileClientTotal (create):', error.message);
       return;
     }
 
@@ -68,7 +74,10 @@ async function reconcileClientTotal(supabase, clientName, increment) {
     if (next < uploaded) next = uploaded; // total must never be below uploaded
     const patch = {};
     if (next !== (existing.total_projects ?? 0)) patch.total_projects = next;
-    if (!existing.slug) patch.slug = slug;
+    if (!existing.slug) {
+      const slug = await uniqueSlug(supabase, 'clients', name, existing.id);
+      if (slug) patch.slug = slug;
+    }
     if (Object.keys(patch).length > 0) {
       await supabase.from('clients').update(patch).eq('id', existing.id);
     }
@@ -219,7 +228,8 @@ export async function updateProject(form) {
   const isNewForClient =
     form.get('is_new_for_client') === 'on' || form.get('is_new_for_client') === 'true';
   const firstAssignment = !String(oldClient).trim() && !!String(v.client).trim();
-  await reconcileClientTotal(supabase, v.client, isNewForClient || firstAssignment);
+  const clientChanged = canonicalClientKey(oldClient) !== canonicalClientKey(v.client);
+  await reconcileClientTotal(supabase, v.client, isNewForClient || firstAssignment, clientChanged);
   bust(id);
   return { ok: true };
 }

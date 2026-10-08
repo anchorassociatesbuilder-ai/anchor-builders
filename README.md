@@ -78,13 +78,13 @@ app/
 
 lib/queries.js               # All Supabase read queries
 src/
-├── data.js                  # Curated client list, site copy, differentiators
+├── data.js                  # Fallback client list, site copy, differentiators
 ├── components.jsx           # Shared UI components
 ├── styles.css               # Design system, layout, component CSS
 └── animations.css           # Reveal, page transition animations
 utils/
 ├── supabase/                # Browser + server + middleware Supabase clients
-├── clients.js               # canonicalClientKey, getCuratedClientOptions
+├── clients.js               # canonicalClientKey
 ├── image.js                 # convertToWebp, isImageFile, MAX_UPLOAD_BYTES
 └── slug.js                  # toSlug
 middleware.js                # Session refresh + /admin auth gate
@@ -161,9 +161,11 @@ npm run start
 
 ## Customization
 
-### Client ordering
+### Clients
 
-The 40-client curated list and its display order live in `src/data.js` in the `CLIENTS` array. Reordering the array changes the order on the clients page. The database can override individual client details (name, full name, sector, since year, testimonial, logo) but insertion order follows `CLIENTS`.
+The admin **Clients** list decides which clients the site shows: the clients page, client detail pages, the homepage marquee, the sitemap and the client dropdown in the project form. Deleting a client there removes it from all of them (projects keep the client name they were saved with). Picking a new custom client on a project adds it to the list automatically.
+
+Clients that are also in the `CLIENTS` array in `src/data.js` keep that array's order, and the rest follow alphabetically. The array is also the fallback list when the clients table can't be read, and its names and full names count as alternate spellings when projects are matched to clients (`utils/clients.js`).
 
 ### Card hover style
 

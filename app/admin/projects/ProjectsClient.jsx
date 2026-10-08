@@ -337,7 +337,7 @@ function ProjectFields({ draft, setDraft, categories, clientOptions = [], disabl
 const CUSTOM_CLIENT = '__custom__';
 
 /**
- * Client picker: a dropdown of curated + saved clients, plus a "Custom client"
+ * Client picker: a dropdown of the admin clients list, plus a "Custom client"
  * option that reveals a free-text box. On edit, an existing client that matches
  * an option preselects it; one that doesn't selects "Custom client" and shows
  * the existing name in the text box. The chosen value is stored in draft.client.

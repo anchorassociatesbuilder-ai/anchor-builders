@@ -27,6 +27,7 @@ const ALIASES = (() => {
     'fourth wall studio': 'Fourth Wall Studios',
     'wah nobel group': 'Wah Nobel',
     'allied bank limited': 'Allied Bank',
+    'alkaram university': 'Al Karam University',
   };
   for (const [variant, canonName] of Object.entries(manual)) {
     map.set(norm(variant), norm(canonName));
@@ -38,11 +39,4 @@ export function canonicalClientKey(value) {
   const n = norm(value);
   if (!n) return '';
   return ALIASES.get(n) || n;
-}
-
-export function getCuratedClientOptions() {
-  return SITE_DATA.CLIENTS.map((c) => ({
-    name: c.name,
-    fullName: c.fullName || c.name,
-  }));
 }

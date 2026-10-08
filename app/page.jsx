@@ -5,7 +5,7 @@ import {
   Reveal, ImgBox, Hero, ClientMarquee, CTABlock, QuoteBlock,
 } from '../src/components';
 import HomeFeatured from './HomeFeatured';
-import { getFeaturedProjects, getServiceCovers, getActiveHeroSlides } from '../lib/queries';
+import { getFeaturedProjects, getServiceCovers, getActiveHeroSlides, getClientRoster } from '../lib/queries';
 import { SITE_URL, SITE_NAME } from '../lib/site';
 import { balancedSpanClass } from '../src/grid';
 
@@ -35,10 +35,11 @@ const STRUCTURED_DATA = [
 ];
 
 export default async function HomePage() {
-  const [featured, covers, heroSlides] = await Promise.all([
+  const [featured, covers, heroSlides, clients] = await Promise.all([
     getFeaturedProjects(6),
     getServiceCovers(),
     getActiveHeroSlides(),
+    getClientRoster(),
   ]);
 
   // Admin-managed hero slides (min 2) take over; otherwise the static fallback.
@@ -183,7 +184,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        <ClientMarquee />
+        <ClientMarquee clients={clients.map((c) => ({ name: c.name }))} />
       </section>
 
       {/* Testimonial */}

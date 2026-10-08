@@ -362,8 +362,10 @@ function Hero({ frames, eyebrow, title, sub }) {
 }
 
 // ---------- Marquee ----------
-function ClientMarquee({ dark = false }) {
-  const items = SITE_DATA.CLIENTS.slice(0, 12);
+// `clients` comes from the admin-managed roster (getClientRoster).
+function ClientMarquee({ clients = [], dark = false }) {
+  const items = clients.slice(0, 12);
+  if (items.length === 0) return null;
   return <VelocityMarquee items={items} dark={dark} />;
 }
 

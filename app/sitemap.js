@@ -2,7 +2,7 @@
 // Lists every public, indexable URL: static marketing pages, service pages,
 // client pages, and the database-driven project category + detail pages.
 import { SITE_DATA } from '../src/data';
-import { getActiveCategories, getActiveProjects } from '../lib/queries';
+import { getActiveCategories, getActiveProjects, getClientRoster } from '../lib/queries';
 import { SITE_URL as BASE_URL } from '../lib/site';
 
 export const dynamic = 'force-dynamic';
@@ -24,23 +24,27 @@ export default async function sitemap() {
     priority: 0.6,
   }));
 
-  // Hardcoded clients all have detail pages (/clients/[id]); dynamic ones don't.
-  const clientRoutes = SITE_DATA.CLIENTS.map((c) => ({
-    url: `${BASE_URL}/clients/${c.id}`,
-    lastModified: now,
-    changeFrequency: 'yearly',
-    priority: 0.4,
-  }));
-
-  // Project category + detail pages come from Supabase. Wrapped so a DB hiccup
-  // never breaks sitemap generation — the static routes above always emit.
+  // Client, project category and project detail pages come from Supabase.
+  // Wrapped so a DB hiccup never breaks sitemap generation; the static routes
+  // above always emit.
+  let clientRoutes = [];
   let categoryRoutes = [];
   let projectRoutes = [];
   try {
-    const [categories, projects] = await Promise.all([
+    const [clients, categories, projects] = await Promise.all([
+      getClientRoster(),
       getActiveCategories(),
       getActiveProjects(),
     ]);
+    // Same list as the /clients page, so deleted clients drop out here too.
+    clientRoutes = clients
+      .filter((c) => c.slug)
+      .map((c) => ({
+        url: `${BASE_URL}/clients/${c.slug}`,
+        lastModified: now,
+        changeFrequency: 'yearly',
+        priority: 0.4,
+      }));
     categoryRoutes = categories
       .filter((c) => c.slug)
       .map((c) => ({
@@ -58,7 +62,7 @@ export default async function sitemap() {
         priority: 0.7,
       }));
   } catch {
-    // Leave project routes empty; the rest of the sitemap still serves.
+    // Leave client and project routes empty; the rest of the sitemap still serves.
   }
 
   return [...staticRoutes, ...serviceRoutes, ...clientRoutes, ...categoryRoutes, ...projectRoutes];
