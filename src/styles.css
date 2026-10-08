@@ -867,7 +867,7 @@ footer .ft-bot .socials a:hover { opacity: 1; }
 }
 .client-logo-cell:hover img { transform: scale(1.05); }
 /* Text fallback when a client has no logo */
-.client-logo-cell.is-text { border-color: var(--line); padding: 12px; }
+.client-logo-cell.is-text { padding: 12px; }
 .client-logo-cell .cc-fallback-name {
   font-family: var(--serif);
   font-size: clamp(16px, 1.6vw, 22px);
@@ -876,7 +876,6 @@ footer .ft-bot .socials a:hover { opacity: 1; }
   color: var(--ink);
   transition: color .35s var(--ease);
 }
-.client-logo-cell.is-text:hover { border-color: var(--warm-deep); }
 .client-logo-cell.is-text:hover .cc-fallback-name { color: var(--warm-deep); }
 @media (max-width: 1200px) { .client-logos-grid { grid-template-columns: repeat(6, 1fr); } }
 @media (max-width: 900px)  { .client-logos-grid { grid-template-columns: repeat(4, 1fr); } }
